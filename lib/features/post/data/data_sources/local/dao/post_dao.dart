@@ -4,9 +4,14 @@ import 'package:quriverse/features/post/domain/entities/post.dart';
 import '../../../../../../core/local/isardb_manager.dart';
 
 class PostDao {
-  void insert(PostEntity post) {
-    IsarDBManager.isar!
-        .writeTxnSync(() => IsarDBManager.isar!.postEntitys.putSync(post));
+  Future<void> insert(PostEntity post) async {
+    await IsarDBManager.isar!.writeTxn(() async {
+      await IsarDBManager.isar!.postEntitys
+          .filter()
+          .idContains(post.id!)
+          .deleteAll();
+      await IsarDBManager.isar!.postEntitys.put(post);
+    });
   }
 
   Future<void> insertAll(List<PostEntity> posts) async {
@@ -17,7 +22,7 @@ class PostDao {
             .idContains(post.id!)
             .deleteAll();
       }
-     await IsarDBManager.isar!.postEntitys.putAll(posts);
+      await IsarDBManager.isar!.postEntitys.putAll(posts);
     });
   }
 

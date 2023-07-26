@@ -41,51 +41,49 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: BlocBuilder<PostCubit, PostEntity?>(
-          builder: (context, state) {
-            if (state != null) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        gradient: RadialGradient(
-                            center: Alignment(0, -20),
-                            radius: 11,
-                            colors: [
-                          kOrangeColor.withOpacity(0.2),
-                          Colors.black
-                        ])),
-                    child: _buildAppBar(state.user!),
-                  ),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: RefreshIndicator.adaptive(
-                        onRefresh: () async {
-                          initPage(context);
-                        },
-                        child: Column(
-                          children: [
-                            _buildPost(state),
-                            _buildComments(),
-                          ],
-                        ),
+    return Scaffold(
+      body: BlocBuilder<PostCubit, PostEntity?>(
+        builder: (context, state) {
+          if (state != null) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                          center: Alignment(0, -20),
+                          radius: 11,
+                          colors: [
+                        kOrangeColor.withOpacity(0.2),
+                        Colors.black
+                      ])),
+                  child: _buildAppBar(state.user!),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: RefreshIndicator.adaptive(
+                      onRefresh: () async {
+                        initPage(context);
+                      },
+                      child: Column(
+                        children: [
+                          _buildPost(state),
+                          _buildComments(),
+                        ],
                       ),
                     ),
-                  )
-                ],
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
+                  ),
+                )
+              ],
             );
-          },
-        ),
+          }
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        },
       ),
     );
   }

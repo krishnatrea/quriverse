@@ -16,7 +16,7 @@ class CommentsCubit extends Cubit<List<CommentEntity>> {
       comment.user = await comments.data!.user![comment.userId!];
       fetchedComments.add(comment);
     });
-    if (fetchedComments.isNotEmpty) {
+    if (fetchedComments.isEmpty) {
       emit(fetchedComments);
     }
   }
