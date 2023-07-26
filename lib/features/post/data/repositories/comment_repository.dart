@@ -28,7 +28,7 @@ class CommentRepositoryImp implements CommentRepository {
         commentDao.insertAll(httpResponse.data.data!
             .map((element) => CommentEntity.formModel(element))
             .toList());
-        userDao.insertAll(httpResponse.data.user!.values
+        await userDao.insertAll(httpResponse.data.user!.values
             .map<UserEntity>((value) => UserEntity.fromModel(value))
             .toList());
         print(httpResponse.data.data.toString());

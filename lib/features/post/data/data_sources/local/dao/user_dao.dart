@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:isar/isar.dart';
 import 'package:quriverse/features/post/domain/entities/user.dart';
 
@@ -9,8 +10,8 @@ class UserDao {
         .writeTxnSync(() => IsarDBManager.isar!.userEntitys.putSync(user));
   }
 
-  void insertAll(List<UserEntity> users) {
-    IsarDBManager.isar!.writeTxn(() async {
+  Future<void> insertAll(List<UserEntity> users) async {
+    await IsarDBManager.isar!.writeTxn(() async {
       for (var user in users) {
         await IsarDBManager.isar!.userEntitys
             .filter()

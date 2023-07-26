@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quriverse/features/post/domain/entities/comment.dart';
 import 'package:quriverse/features/post/domain/usecases/get_comments.dart';
@@ -9,6 +11,7 @@ class CommentsCubit extends Cubit<List<CommentEntity>> {
   CommentsCubit(this.getCommentsUseCase, this.getSavedComments) : super([]);
   void getComments(String id) async {
     var savedComments = await getSavedComments(params: id);
+    log(savedComments.toString());
     emit(savedComments);
     var comments = await getCommentsUseCase(params: id);
     List<CommentEntity> fetchedComments = [];

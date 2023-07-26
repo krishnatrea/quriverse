@@ -8,15 +8,9 @@ class CommentDao {
         () => IsarDBManager.isar!.commentEntitys.putSync(comment));
   }
 
-  Future<void> insertAll(List<CommentEntity> comments) async {
-    IsarDBManager.isar!.writeTxn(() async {
-      for (var comment in comments) {
-        await IsarDBManager.isar!.commentEntitys
-            .filter()
-            .idContains(comment.id!)
-            .deleteAll();
-      }
-      await IsarDBManager.isar!.commentEntitys.putAll(comments);
+  void insertAll(List<CommentEntity> comments) {
+    IsarDBManager.isar!.writeTxnSync(() {
+      IsarDBManager.isar!.commentEntitys.putAllSync(comments);
     });
   }
 
@@ -31,7 +25,6 @@ class CommentDao {
     return await IsarDBManager.isar!.commentEntitys
         .filter()
         .postIdContains(id)
-        .distinctById()
         .findAll();
   }
 }
